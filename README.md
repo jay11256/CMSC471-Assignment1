@@ -14,3 +14,5 @@ Do not feel obligated to try to convey everything about the data: focus on a **c
 - Which techniques best facilitate exploration and understanding?
 - Which aspects of the dataset are the most compelling?
 - What visual encodings and interaction techniques suit your data and audience?
+
+https://observablehq.com/@d3/zoom-to-bounding-box

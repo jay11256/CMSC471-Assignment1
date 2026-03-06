@@ -3,7 +3,7 @@ const margin = { top: 80, right: 60, bottom: 60, left: 100 };
 const width = 800 - margin.left - margin.right;
 const height = 600 - margin.top - margin.bottom;
 
-const dataPath = "data/" // CHANGE TO PATH TO DATA
+const dataPath = "data/processed.csv" // CHANGE TO PATH TO DATA
 
 let allData = []; // Initialize in init()
 let filteredData = [];
@@ -21,11 +21,28 @@ function init() {
             // Ex: 
             // country: d.country,
             // year: +d.year
+            // station,state,latitude,longitude,elevation,date,TMIN,TMAX,TAVG,AWND,WDF5,WSF5,SNOW,SNWD,PRCP,date_int
+            station: d.station,
+            state: d.state,
+            latitude: +d.latitude,
+            longitude: +d.longitude,
+            elevation: +d.elevation,
+            date: d.date,
+            TMIN: +d.TMIN,
+            TMAX: +d.TMAX,
+            TAVG: +d.TAVG,
+            AWND: +d.AWND,
+            WDF5: +d.WDF5,
+            WSF5: +d.WSF5,
+            SNOW: +d.SNOW,
+            SNWD: +d.SNWD,
+            PRCP: +d.PRCP,
+            date_int: +d.date_int
+
 
         }))
         .then(data =>
-            allData = data
-
+            console.log(data)
             // Setup
             // selector(s)?
 
@@ -34,6 +51,7 @@ function init() {
 
         )
         .catch(error => console.error('Error loading data: ', error));
+        
 }
 
 

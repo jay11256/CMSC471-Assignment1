@@ -8,6 +8,12 @@ const dataPath = "data/processed.csv" // CHANGE TO PATH TO DATA
 let allData = []; // Initialize in init()
 let filteredData = [];
 
+
+// PLACEHOLDER VARIABLES
+let xVar = 'latitude'
+let yVar = 'longitude'
+let sizeVar = 'AWND'
+
 // Init
 function init() {
 
@@ -41,15 +47,17 @@ function init() {
 
 
         }))
-        .then(data =>
-            console.log(data)
+        .then(data => {
+            // console.log(data)
+            allData = data
             // Setup
             // selector(s)?
 
             // axes
+            updateAxes()
             // vis (bubbles representing datapoints)
 
-        )
+})
         .catch(error => console.error('Error loading data: ', error));
         
 }
@@ -62,11 +70,51 @@ function setupSelector() {
 
 }
 
-function updateAxes() {
-    // Draws the x-axis and y-axis
-    // Adds ticks, labels, and makes sure everything lines up nicely
-}
+function updateAxes(){
+  // Draws the x-axis and y-axis
+  // Adds ticks, labels, and makes sure everything lines up nicely
+    svg.selectAll('.axis').remove()
+    svg.selectAll('.labels').remove()
+    xScale = d3.scaleLinear()
+        .domain([0, d3.max(allData, d => d[xVar])])
+        .range([0, width]);
+    const xAxis = d3.axisBottom(xScale)
 
+    svg.append("g")
+        .attr("class", "axis")
+        .attr("transform", `translate(0,${height})`) // Position at the bottom
+        .call(xAxis);
+
+    yScale = d3.scaleLinear()
+        .domain([d3.max(allData, d => d[yVar]),0])
+        .range([0, height]);
+    const yAxis = d3.axisLeft(yScale)
+
+    svg.append("g")
+        .attr("class", "axis")
+        .call(yAxis);
+
+    sizeScale = d3.scaleSqrt()
+        .domain([0, d3.max(allData, d => d[sizeVar])]) // Largest bubble = largest data point 
+        .range([5, 20]); // Feel free to tweak these values if you want bigger or smaller bubbles
+
+    // X-axis label
+    svg.append("text")
+        .attr("x", width / 2)
+        .attr("y", height + margin.bottom - 20)
+        .attr("text-anchor", "middle")
+        .text(xVar) // Displays the current x-axis variable
+        .attr('class', 'labels')
+
+    // Y-axis label (rotated)
+    svg.append("text")
+        .attr("transform", "rotate(-90)")
+        .attr("x", -height / 2)
+        .attr("y", -margin.left + 40)
+        .attr("text-anchor", "middle")
+        .text(yVar) // Displays the current y-axis variable
+        .attr('class', 'labels')
+}
 function updateVis() {
     // Updates bubbles
 

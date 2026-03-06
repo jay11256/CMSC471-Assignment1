@@ -6,7 +6,7 @@ const height = 600 - margin.top - margin.bottom;
 const dataPath = "data/processed.csv" // CHANGE TO PATH TO DATA
 
 let allData = []; // Initialize in init()
-let filteredData = [];
+let filteredData = []; 
 
 
 // PLACEHOLDER VARIABLES
@@ -128,7 +128,7 @@ function updateVis() {
 window.addEventListener('load', init);
 
 // Create SVG
-const svg = d3.select('#vis')
+const svg = d3.selectAll('.vis')
     .append('svg')
     .attr('width', width + margin.left + margin.right)
     .attr('height', height + margin.top + margin.bottom)

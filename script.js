@@ -3,8 +3,12 @@ const margin = { top: 80, right: 60, bottom: 60, left: 100 };
 const width = 400 - margin.left - margin.right;
 const height = 300 - margin.top - margin.bottom;
 
+const stations = ['','','','']
+const colorScale = d3.scaleOrdinal(stations, d3.schemeSet2); // d3.schemeSet2 is a set of predefined colors. 
+
 const dataPath = "data/processed.csv" // CHANGE TO PATH TO DATA
 
+t = 1000;
 let allData = []; // Initialize in init()
 let filteredData = []; 
 
@@ -56,6 +60,7 @@ function init() {
             // axes
             updateAxes()
             // vis (bubbles representing datapoints)
+            updateVis()
 
 })
         .catch(error => console.error('Error loading data: ', error));
@@ -115,13 +120,68 @@ function updateAxes(){
         .text(yVar) // Displays the current y-axis variable
         .attr('class', 'labels')
 }
-function updateVis() {
-    // Updates bubbles
 
-    // Filter data
-    // Define enter, update, exit behaviors
+
+function updateVis(){
+  // Draws (or updates) the bubbles
+
+    let currentData = allData//.filter(d => d.year === targetYear)
+
+    svg.selectAll('.points')
+        // Why use d => d.country as the key?
+        // Because each country is unique in the dataset for the current year. 
+        // This helps D3 know which bubbles to keep, update, or remove.
+        .data(currentData, d => d.state)
+        .join(
+            function (enter) {
+                return enter
+                    .append('circle')
+                    .attr('class', 'points')
+                    .attr('cx', d => xScale(d[xVar]))
+                    .attr('cy', d => yScale(d[yVar]))
+                    .style('fill', d => colorScale(d.continent))
+                    .style('opacity', .5)
+                    .attr('r', 0) // before transition r = 0
+                    .on('mouseover', function (event, d) {
+                        d3.select(this) // Refers to the hovered circle
+    .style('stroke', 'black')
+    .style('stroke-width', '4px')
+                        // console.log(d) // See the data point in the console for debugging
+                        d3.select('#tooltip')
+                            // if you change opacity to hide it, you should also change opacity here
+                            .style("display", 'block') // Make the tooltip visible
+                            .html( // Change the html content of the <div> directly
+                                `<strong>${d.country}</strong><br/>
+                Continent: ${d.continent}`)
+                            .style("left", (event.pageX + 20) + "px")
+                            .style("top", (event.pageY - 28) + "px");
+                    })
+                    .on("mouseout", function (event, d) {
+                        d3.select(this) // Refers to the hovered circle
+    .style('stroke', 'none')
+                        d3.select('#tooltip')
+                            .style('display', 'none') // Hide tooltip when cursor leaves
+                    })
+                    .transition(t) // Animate the transition
+                    .attr('r', d => sizeScale(d[sizeVar])) // Expand to target size
+            },
+            function (update) {
+                return update
+                    .transition(t)
+                    .attr('cx', d => xScale(d[xVar]))
+                    .attr('cy', d => yScale(d[yVar]))
+                    .attr('r', d => sizeScale(d[sizeVar]))
+            },
+            function (exit) {
+                exit
+                .transition(t)
+                .attr('r', 0)  // Shrink to radius 0
+                .remove()  // Then remove the bubble
+            }
+        )
 
 }
+
 
 
 

@@ -1,7 +1,7 @@
 // Constants
 const margin = { top: 80, right: 60, bottom: 60, left: 100 };
-const width = 400 - margin.left - margin.right;
-const height = 300 - margin.top - margin.bottom;
+const width = 500 - margin.left - margin.right;
+const height = 350 - margin.top - margin.bottom;
 
 const stations = ['', '', '', '']
 const colorScale = d3.scaleOrdinal(stations, d3.schemeSet2); // d3.schemeSet2 is a set of predefined colors. 
@@ -14,9 +14,9 @@ let filteredData = [];
 
 
 // PLACEHOLDER VARIABLES
-let xVar = 'latitude'
-let yVar = 'WDF5'
-let sizeVar = 'AWND'
+let xVar = 'TAVG'
+let yVar = 'AWND'
+let sizeVar = 'PRCP'
 
 // Init
 function init() {

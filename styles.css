@@ -1,19 +1,30 @@
 /* Reset default styles */
-* {
+body {
     font-family: Arial, sans-serif;
-    max-width: 800px;
-    margin: 0px auto;
+    margin: 0;
     line-height: 1.8;
 }
-
 /* Container styling for layout */
-.container {
-    max-width: 800px;
-    margin: 2rem auto;
-    font-family: Arial, sans-serif;
-}
 
 .vis svg {
     margin: 2rem 0;
     border: 1px solid #ccc; /*otherwise you can't see this part*/
+}
+
+.vis {
+    display: flex;
+    justify-content: center;
+}
+
+.grid-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.container {
+    width: 100%;
+    padding: 10px 20px;
 }

@@ -1,7 +1,7 @@
 // Constants
 const margin = { top: 100, right: 60, bottom: 60, left: 100 };
-const width = 500 - margin.left - margin.right;
-const height = 350 - margin.top - margin.bottom;
+const width = 600 - margin.left - margin.right;
+const height = 500 - margin.top - margin.bottom;
 
 const stations = [
     'PATUXENT RIVER NAS',

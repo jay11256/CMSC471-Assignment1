@@ -33,7 +33,7 @@ body {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 40px;
-    max-width: 1200px;
+    max-width: auto;
     margin: 0 auto;
 }
 

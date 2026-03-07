@@ -203,33 +203,15 @@ function updateVis(svg, stationData = allData) {
                     .style('fill', d => colorScale(getSeason(d.date)))
                     .style('opacity', 0.5)
                     .attr('r', 0)
-                    .on('mouseover', function (event, d) {
-                        d3.selectAll('.points')
-                            .style('opacity', function (p) {
-                                if (p.date_int === d.date_int) {
-                                    return 1;
-                                } else {
-                                    return 0.1;
-                                }
-                            })
-                            .style('stroke', function (p) {
-                                if (p.date_int === d.date_int) {
-                                    return 'black';
-                                } else {
-                                    return 'none';
-                                }
-                            })
-                            .style('stroke-width', function (p) {
-                                if (p.date_int === d.date_int) {
-                                    return 2;
-                                } else {
-                                    return 0;
-                                }
-                            });
-                    })
-                    .on('mouseout', function () {
-                        resetPoints();
-                    })
+                    // .on('mouseover', function (event, d) {
+                    //     d3.selectAll('.points')
+                    //         .style('opacity', p => p.date_int === d.date_int ? 1 : 0.1)
+                    //         .style('stroke', p => p.date_int === d.date_int ? 'black' : 'none')
+                    //         .style('stroke-width', p => p.date_int === d.date_int ? 2 : 0);
+                    // })
+                    // .on('mouseout', function () {
+                    //     resetPoints();
+                    // })
                     .transition()
                     .duration(t)
                     .attr('r', d => sizeScale(d[sizeVar]));
@@ -241,7 +223,7 @@ function updateVis(svg, stationData = allData) {
                     .attr('cx', d => xScale(d[xVar]))
                     .attr('cy', d => yScale(d[yVar]))
                     .attr('r', d => sizeScale(d[sizeVar]))
-                    .attr('fill', d => colorScale(d.date))
+                    .attr('fill', d => colorScale(getSeason(d.date)))
 
             },
             function (exit) {
@@ -303,27 +285,9 @@ function makeBrush(svg, stationData) {
             });
 
             d3.selectAll('.points')
-                .style('opacity', function (d) {
-                    if (selectedDates.includes(d.date_int)) {
-                        return 1;
-                    } else {
-                        return 0.1;
-                    }
-                })
-                .style('stroke', function (d) {
-                    if (selectedDates.includes(d.date_int)) {
-                        return 'black';
-                    } else {
-                        return 'none';
-                    }
-                })
-                .style('stroke-width', function (d) {
-                    if (selectedDates.includes(d.date_int)) {
-                        return 2;
-                    } else {
-                        return 0;
-                    }
-                });
+                .style('opacity', d => selectedDates.includes(d.date_int) ? 1 : 0.1)
+                .style('stroke', d => selectedDates.includes(d.date_int) ? 'black' : 'none')
+                .style('stroke-width', d => selectedDates.includes(d.date_int) ? 2 : 0);
         });
 
     svg.selectAll(".brush").remove();

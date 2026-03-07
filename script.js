@@ -9,8 +9,15 @@ const stations = [
     'BALTIMORE WASH INTL AP',
     'OCEAN CITY MUNI AP'
 ];
+const mapping = {
+    "TMIN": "Minimum Temperature (F)",
+    "TMAX": "Maximum Temperature (F)",
+    "AWND": "Average Wind Speed (MPH)",
+    "WSF5": "Fastest Wind Speed (MPH)",
+    "PRCP": "Precipitation (In)"
+}
 let colorScale = d3.scaleSequential(d3.interpolateTurbo); // d3.schemeSet2 is a set of predefined colors. 
-const options = ['TMIN', 'TMAX', 'AWND', 'WDF5', 'WSF5', 'PRCP']
+const options = ['TMIN', 'TMAX', 'AWND', 'WSF5', 'PRCP']
 const dataPath = "data/processed.csv" // CHANGE TO PATH TO DATA
 const parseDate = d3.timeParse("%Y-%m-%d")
 
@@ -71,7 +78,7 @@ function setupSelector() {
                 .data(options)
                 .enter()
                 .append("option")
-                .text(d => d)
+                .text(d => mapping[d])
                 .attr("value", d => d)
         })
         .on("change", function (event) {
@@ -121,14 +128,14 @@ function updateAxes(svg) {
 
     sizeScale = d3.scaleSqrt()
         .domain([0, d3.max(allData, d => d[sizeVar])]) // Largest bubble = largest data point 
-        .range([5, 20]); // Feel free to tweak these values if you want bigger or smaller bubbles
+        .range([4, 10]); // Feel free to tweak these values if you want bigger or smaller bubbles
 
     // X-axis label
     svg.append("text")
         .attr("x", width / 2)
         .attr("y", height + margin.bottom - 20)
         .attr("text-anchor", "middle")
-        .text(xVar) // Displays the current x-axis variable
+        .text(mapping[xVar]) // Displays the current x-axis variable
         .attr('class', 'labels')
 
     // Y-axis label (rotated)
@@ -137,8 +144,32 @@ function updateAxes(svg) {
         .attr("x", -height / 2)
         .attr("y", -margin.left + 40)
         .attr("text-anchor", "middle")
-        .text(yVar) // Displays the current y-axis variable
+        .text(mapping[yVar]) // Displays the current y-axis variable
         .attr('class', 'labels')
+
+    // Plot Title
+    let title;
+    switch (svg) {
+        case svgPatuxent:
+            title = "Patuxent";
+            break;
+        case svgHagerstown:
+            title = "Hagerstown";
+            break;
+        case svgBaltimore:
+            title = "Baltimore";
+            break;
+        case svgOcean:
+            title = "Ocean City";
+            break;
+    }
+    svg.append("text")
+        .attr("x", width / 2)
+        .attr("y", -30)
+        .attr("text-anchor", "middle")
+        .text(title) // Displays the current title
+        .attr('class', 'labels')
+        .attr('class', 'titles')
 }
 function resetPoints() {
     d3.selectAll('.points')

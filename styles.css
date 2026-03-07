@@ -6,14 +6,27 @@ body {
 }
 /* Container styling for layout */
 
+#main-container {
+    width: 80%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
 .vis svg {
-    margin: 2rem 0;
+    margin: 0;
     border: 1px solid #ccc; /*otherwise you can't see this part*/
 }
 
 .vis {
     display: flex;
     justify-content: center;
+}
+
+.titles {
+    font-size: 1.25rem;
 }
 
 .grid-layout {

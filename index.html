@@ -8,30 +8,33 @@
     <link rel="stylesheet" href="./styles.css">
 </head>
 <body>
-    <div id="controls">
-        X: <select id="xVariable" class="variable"></select>
-        Y: <select id="yVariable" class="variable"></select>
-        size: <select id="sizeVariable" class="variable"></select>
-    </div>
-    <div class="grid-layout">
-        <div class="container" id="chartP">
-            <h1>Patuxent</h1>
-            <div class="vis" id="visP"></div>
+    <div id="main-container">
+        <h1>Daily Weather in Maryland 2017</h1>
+        <div id="controls">
+            X-Axis: <select id="xVariable" class="variable"></select><br>
+            Y-Axis: <select id="yVariable" class="variable"></select><br>
+            Size: <select id="sizeVariable" class="variable"></select>
         </div>
+        <div class="grid-layout">
+            <div class="container" id="chartP">
+                <!-- <h2>Patuxent</h2> -->
+                <div class="vis" id="visP"></div>
+            </div>
 
-        <div class="container" id="chartH">
-            <h1>Hagerstown</h1>
-            <div class="vis" id="visH"></div>
-        </div>
+            <div class="container" id="chartH">
+                <!-- <h2>Hagerstown</h2> -->
+                <div class="vis" id="visH"></div>
+            </div>
 
-        <div class="container" id="chartB">
-            <h1>Baltimore</h1>
-            <div class="vis" id="visB"></div>
-        </div>
+            <div class="container" id="chartB">
+                <!-- <h2>Baltimore</h2> -->
+                <div class="vis" id="visB"></div>
+            </div>
 
-        <div class="container" id="chartO">
-            <h1>Ocean</h1>
-            <div class="vis" id="visO"></div>
+            <div class="container" id="chartO">
+                <!-- <h2>Ocean City</h2> -->
+                <div class="vis" id="visO"></div>
+            </div>
         </div>
     </div>
 

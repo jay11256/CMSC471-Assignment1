@@ -12,7 +12,6 @@ t = 1000;
 let allData = []; // Initialize in init()
 let filteredData = [];
 
-
 // PLACEHOLDER VARIABLES
 let xVar = 'TMIN'
 let yVar = 'AWND'
@@ -22,16 +21,9 @@ let sizeVar = 'PRCP'
 function init() {
 
     // Initialize data
-    // 
-
     d3.csv(dataPath,
         d => ({
-
             // Change variable names (and convert some to numeric using +)
-            // Ex: 
-            // country: d.country,
-            // year: +d.year
-            // station,state,latitude,longitude,elevation,date,TMIN,TMAX,TAVG,AWND,WDF5,WSF5,SNOW,SNWD,PRCP,date_int
             station: d.station,
             state: d.state,
             latitude: +d.latitude,
@@ -48,8 +40,6 @@ function init() {
             SNWD: +d.SNWD,
             PRCP: +d.PRCP,
             date_int: +d.date_int
-
-
         }))
         .then(data => {
             // console.log(data)
@@ -73,6 +63,7 @@ function setupSelector() {
 }
 
 function updateAxes(svg) {
+    
     // Draws the x-axis and y-axis
     // Adds ticks, labels, and makes sure everything lines up nicely
     svg.selectAll('.axis').remove()
@@ -120,8 +111,8 @@ function updateAxes(svg) {
 
 
 function updateVis(svg, stationData = allData) {
-    // Draws (or updates) the bubbles
 
+    // Draws (or updates) the bubbles
     let currentData = stationData//.filter(d => d.year === targetYear)
 
     svg.selectAll('.points')
@@ -156,9 +147,9 @@ function updateVis(svg, stationData = allData) {
                     .remove()  // Then remove the bubble
             }
         )
-
 }
 
+// Update axes and vis
 function update() {
     updateAxes(svgPatuxent);
     updateAxes(svgHagerstown);
@@ -172,7 +163,7 @@ function update() {
 
 window.addEventListener('load', init);
 
-// Create SVG
+// Create SVGs
 const svgPatuxent = d3.select('#visP')
     .append('svg')
     .attr('width', width + margin.left + margin.right)

@@ -14,7 +14,7 @@ let filteredData = [];
 
 
 // PLACEHOLDER VARIABLES
-let xVar = 'TAVG'
+let xVar = 'TMIN'
 let yVar = 'AWND'
 let sizeVar = 'PRCP'
 
@@ -57,10 +57,7 @@ function init() {
             // Setup
             // selector(s)?
 
-            // axes
-            updateAxes()
-            // vis (bubbles representing datapoints)
-            updateVis()
+            update()
 
         })
         .catch(error => console.error('Error loading data: ', error));
@@ -75,7 +72,7 @@ function setupSelector() {
 
 }
 
-function updateAxes() {
+function updateAxes(svg) {
     // Draws the x-axis and y-axis
     // Adds ticks, labels, and makes sure everything lines up nicely
     svg.selectAll('.axis').remove()
@@ -122,10 +119,10 @@ function updateAxes() {
 }
 
 
-function updateVis() {
+function updateVis(svg, stationData = allData) {
     // Draws (or updates) the bubbles
 
-    let currentData = allData//.filter(d => d.year === targetYear)
+    let currentData = stationData//.filter(d => d.year === targetYear)
 
     svg.selectAll('.points')
         // Why use d => d.country as the key?
@@ -142,26 +139,6 @@ function updateVis() {
                     .style('fill', d => colorScale(d.continent))
                     .style('opacity', .5)
                     .attr('r', 0) // before transition r = 0
-                    .on('mouseover', function (event, d) {
-                        d3.select(this) // Refers to the hovered circle
-                            .style('stroke', 'black')
-                            .style('stroke-width', '4px')
-                        // console.log(d) // See the data point in the console for debugging
-                        d3.select('#tooltip')
-                            // if you change opacity to hide it, you should also change opacity here
-                            .style("display", 'block') // Make the tooltip visible
-                            .html( // Change the html content of the <div> directly
-                                `<strong>${d.country}</strong><br/>
-                Continent: ${d.continent}`)
-                            .style("left", (event.pageX + 20) + "px")
-                            .style("top", (event.pageY - 28) + "px");
-                    })
-                    .on("mouseout", function (event, d) {
-                        d3.select(this) // Refers to the hovered circle
-                            .style('stroke', 'none')
-                        d3.select('#tooltip')
-                            .style('display', 'none') // Hide tooltip when cursor leaves
-                    })
                     .transition(t) // Animate the transition
                     .attr('r', d => sizeScale(d[sizeVar])) // Expand to target size
             },
@@ -182,13 +159,42 @@ function updateVis() {
 
 }
 
-
-
+function update() {
+    updateAxes(svgPatuxent);
+    updateAxes(svgHagerstown);
+    updateAxes(svgBaltimore);
+    updateAxes(svgOcean);
+    updateVis(svgPatuxent, allData.filter(d => d.station === 'PATUXENT RIVER NAS'));
+    updateVis(svgHagerstown, allData.filter(d => d.station === 'HAGERSTOWN WASHINGTON CO AP'));
+    updateVis(svgBaltimore, allData.filter(d => d.station === 'BALTIMORE WASH INTL AP'));
+    updateVis(svgOcean, allData.filter(d => d.station === 'OCEAN CITY MUNI AP'));
+}
 
 window.addEventListener('load', init);
 
 // Create SVG
-const svg = d3.selectAll('.vis')
+const svgPatuxent = d3.select('#visP')
+    .append('svg')
+    .attr('width', width + margin.left + margin.right)
+    .attr('height', height + margin.top + margin.bottom)
+    .append('g')
+    .attr('transform', `translate(${margin.left},${margin.top})`);
+
+const svgHagerstown = d3.select('#visH')
+    .append('svg')
+    .attr('width', width + margin.left + margin.right)
+    .attr('height', height + margin.top + margin.bottom)
+    .append('g')
+    .attr('transform', `translate(${margin.left},${margin.top})`);
+
+const svgBaltimore = d3.select('#visB')
+    .append('svg')
+    .attr('width', width + margin.left + margin.right)
+    .attr('height', height + margin.top + margin.bottom)
+    .append('g')
+    .attr('transform', `translate(${margin.left},${margin.top})`);
+
+const svgOcean = d3.select('#visO')
     .append('svg')
     .attr('width', width + margin.left + margin.right)
     .attr('height', height + margin.top + margin.bottom)

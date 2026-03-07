@@ -10,7 +10,7 @@ const stations = [
     'OCEAN CITY MUNI AP'
 ];
 const colorScale = d3.scaleOrdinal(stations, d3.schemeSet2); // d3.schemeSet2 is a set of predefined colors. 
-
+const options = ['TMIN', 'TMAX', 'AWND', 'WDF5', 'WSF5', 'PRCP']
 const dataPath = "data/processed.csv" // CHANGE TO PATH TO DATA
 
 t = 1000;
@@ -51,7 +51,7 @@ function init() {
             allData = data
             // Setup
             // selector(s)?
-
+            setupSelector()
             update()
 
         })
@@ -61,14 +61,37 @@ function init() {
 
 
 function setupSelector() {
-    // Handles UI changes (sliders, dropdowns)
-    // Anytime the user tweaks something, this function reacts.
-    // May need to call updateAxes() and updateVis() here when needed!
-
+    d3.selectAll(".variable")
+        .each(function() {
+            d3.select(this).selectAll("myOptions")
+            .data(options)
+            .enter()
+            .append("option")
+            .text(d => d)
+            .attr("value", d => d)
+        })
+        .on("change", function(event) {
+            // placeholder?
+            console.log(d3.select(this).property("id"))
+            console.log(d3.select(this).property("value"))
+            if (d3.select(this).property("id") === "xVariable") {
+                xVar = d3.select(this).property("value")
+            }
+            if (d3.select(this).property("id") === "yVariable") {
+                yVar = d3.select(this).property("value")
+            }
+            if (d3.select(this).property('id') === "sizeVariable") {
+                sizeVar = d3.select(this).property("value")
+            }
+            update();
+        })
+    d3.select("#xVariable").property("value", xVar)
+    d3.select("#yVariable").property("value", yVar)
+    d3.select("#sizeVariable").property("value", sizeVar)
 }
 
 function updateAxes(svg) {
-    
+
     // Draws the x-axis and y-axis
     // Adds ticks, labels, and makes sure everything lines up nicely
     svg.selectAll('.axis').remove()

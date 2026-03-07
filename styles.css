@@ -28,3 +28,9 @@ body {
     width: 100%;
     padding: 10px 20px;
 }
+
+.brush .selection {
+    fill: steelblue;
+    fill-opacity: 0.2;
+    stroke: #333;
+}

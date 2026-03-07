@@ -73,6 +73,10 @@ function init() {
             // colorScale = colorScale.domain([minDate, maxDate])
             allData = data
             setupSelector()
+            addLegend(svgPatuxent);
+            addLegend(svgHagerstown);
+            addLegend(svgBaltimore);
+            addLegend(svgOcean);
             update()
         })
         .catch(error => console.error('Error loading data: ', error));
@@ -340,11 +344,6 @@ function update() {
     updateAxes(svgHagerstown);
     updateAxes(svgBaltimore);
     updateAxes(svgOcean);
-
-    addLegend(svgPatuxent);
-    addLegend(svgHagerstown);
-    addLegend(svgBaltimore);
-    addLegend(svgOcean);
 
     updateVis(svgPatuxent, patuxentData);
     updateVis(svgHagerstown, hagerstownData);

@@ -1,7 +1,7 @@
 // Constants
 const margin = { top: 80, right: 60, bottom: 60, left: 100 };
-const width = 800 - margin.left - margin.right;
-const height = 600 - margin.top - margin.bottom;
+const width = 400 - margin.left - margin.right;
+const height = 300 - margin.top - margin.bottom;
 
 const dataPath = "data/processed.csv" // CHANGE TO PATH TO DATA
 
@@ -11,7 +11,7 @@ let filteredData = [];
 
 // PLACEHOLDER VARIABLES
 let xVar = 'latitude'
-let yVar = 'longitude'
+let yVar = 'WDF5'
 let sizeVar = 'AWND'
 
 // Init

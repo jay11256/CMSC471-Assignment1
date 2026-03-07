@@ -32,7 +32,7 @@ body {
 .grid-layout {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 40px;
+    gap: 10px;
     max-width: auto;
     margin: 0 auto;
 }

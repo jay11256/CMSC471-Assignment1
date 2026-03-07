@@ -179,8 +179,7 @@ function updateAxes(svg) {
         .attr("y", -50)
         .attr("text-anchor", "middle")
         .text(title) // Displays the current title
-        .attr('class', 'labels')
-        .attr('class', 'titles')
+        .attr('class', 'labels titles')
 }
 function resetPoints() {
     d3.selectAll('.points')

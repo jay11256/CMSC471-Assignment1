@@ -1,5 +1,5 @@
 // Constants
-const margin = { top: 80, right: 60, bottom: 60, left: 100 };
+const margin = { top: 100, right: 60, bottom: 60, left: 100 };
 const width = 500 - margin.left - margin.right;
 const height = 350 - margin.top - margin.bottom;
 
@@ -30,6 +30,8 @@ let yVar = 'AWND'
 let sizeVar = 'PRCP'
 
 // Handling Colors
+const seasons = ["Spring", "Summer", "Fall", "Winter"];
+const seasonColors = ["#2ca02c", "#ff7f0e", "#d62728", "#1f77b4"];
 function getSeason(date) {
     const month = date.getMonth() + 1; // JS months: 0-11
     if (month >= 3 && month <= 4) return "Spring";
@@ -38,8 +40,8 @@ function getSeason(date) {
     else return "Winter"; // Dec, Jan, Feb
 }
 const colorScale = d3.scaleOrdinal()
-    .domain(["Spring", "Summer", "Fall", "Winter"])
-    .range(["#2ca02c", "#ff7f0e", "#d62728", "#1f77b4"]); // Pick any 4 colors
+    .domain(seasons)
+    .range(seasonColors);
 
 // Init
 function init() {
@@ -170,7 +172,7 @@ function updateAxes(svg) {
     }
     svg.append("text")
         .attr("x", width / 2)
-        .attr("y", -30)
+        .attr("y", -50)
         .attr("text-anchor", "middle")
         .text(title) // Displays the current title
         .attr('class', 'labels')
@@ -249,6 +251,28 @@ function updateVis(svg, stationData = allData) {
         );
 }
 
+function addLegend(svg) {
+    let size = 10
+    svg.selectAll("seasonSquare")
+        .data(seasons)
+        .enter()
+        .append("rect")
+        .attr("y", -margin.top/2 + 15)
+        .attr("x", (d, i) => i * (size + 70) + 15)
+        .attr("width", size)
+        .attr("height", size)
+        .style("fill", d => colorScale(d))
+    svg.selectAll("seasonName")
+        .data(seasons)
+        .enter()
+        .append("text")
+        .attr("y", -margin.top/2 + size + 15)
+        .attr("x", (d, i) => i * (size + 70) + 30)
+        .style("fill", d => colorScale(d))
+        .text(d => d)
+        .attr("text-anchor", "left")
+        .style("font-size", "13px")
+}
 
 function makeBrush(svg, stationData) {
     let brush = d3.brush()
@@ -316,6 +340,11 @@ function update() {
     updateAxes(svgHagerstown);
     updateAxes(svgBaltimore);
     updateAxes(svgOcean);
+
+    addLegend(svgPatuxent);
+    addLegend(svgHagerstown);
+    addLegend(svgBaltimore);
+    addLegend(svgOcean);
 
     updateVis(svgPatuxent, patuxentData);
     updateVis(svgHagerstown, hagerstownData);

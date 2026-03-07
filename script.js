@@ -4,9 +4,11 @@ const width = 500 - margin.left - margin.right;
 const height = 350 - margin.top - margin.bottom;
 
 const stations = ['', '', '', '']
-const colorScale = d3.scaleOrdinal(stations, d3.schemeSet2); // d3.schemeSet2 is a set of predefined colors. 
+
+let colorScale = d3.scaleSequential(d3.interpolateTurbo);
 
 const dataPath = "data/processed.csv" // CHANGE TO PATH TO DATA
+const parseDate = d3.timeParse("%Y-%m-%d")
 
 t = 1000;
 let allData = []; // Initialize in init()
@@ -29,7 +31,7 @@ function init() {
             latitude: +d.latitude,
             longitude: +d.longitude,
             elevation: +d.elevation,
-            date: d.date,
+            date: parseDate(d.date),
             TMIN: +d.TMIN,
             TMAX: +d.TMAX,
             TAVG: +d.TAVG,
@@ -43,10 +45,13 @@ function init() {
         }))
         .then(data => {
             // console.log(data)
+            const minDate = d3.min(data, d => d.date)
+            const maxDate = d3.max(data, d => d.date)
+            colorScale = colorScale.domain([minDate,maxDate])
             allData = data
             // Setup
             // selector(s)?
-
+            console.log(typeof data[0]['date'])
             update()
 
         })
@@ -127,11 +132,13 @@ function updateVis(svg, stationData = allData) {
                     .attr('class', 'points')
                     .attr('cx', d => xScale(d[xVar]))
                     .attr('cy', d => yScale(d[yVar]))
-                    .style('fill', d => colorScale(d.continent))
+                    .style('fill', d => colorScale(d.date))
                     .style('opacity', .5)
                     .attr('r', 0) // before transition r = 0
                     .transition(t) // Animate the transition
                     .attr('r', d => sizeScale(d[sizeVar])) // Expand to target size
+                    .attr('fill', d => colorScale(d.date))
+
             },
             function (update) {
                 return update
@@ -139,12 +146,16 @@ function updateVis(svg, stationData = allData) {
                     .attr('cx', d => xScale(d[xVar]))
                     .attr('cy', d => yScale(d[yVar]))
                     .attr('r', d => sizeScale(d[sizeVar]))
+                    .attr('fill', d => colorScale(d.date))
+
             },
             function (exit) {
                 exit
                     .transition(t)
                     .attr('r', 0)  // Shrink to radius 0
                     .remove()  // Then remove the bubble
+                    .attr('fill', d => colorScale(d.date))
+
             }
         )
 }

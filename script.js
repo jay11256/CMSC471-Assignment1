@@ -51,7 +51,7 @@ function init() {
             // console.log(data)
             const minDate = d3.min(data, d => d.date)
             const maxDate = d3.max(data, d => d.date)
-            colorScale = colorScale.domain([minDate,maxDate])
+            colorScale = colorScale.domain([minDate, maxDate])
             allData = data
             // Setup
             // selector(s)?
@@ -66,15 +66,15 @@ function init() {
 
 function setupSelector() {
     d3.selectAll(".variable")
-        .each(function() {
+        .each(function () {
             d3.select(this).selectAll("myOptions")
-            .data(options)
-            .enter()
-            .append("option")
-            .text(d => d)
-            .attr("value", d => d)
+                .data(options)
+                .enter()
+                .append("option")
+                .text(d => d)
+                .attr("value", d => d)
         })
-        .on("change", function(event) {
+        .on("change", function (event) {
             // placeholder?
             console.log(d3.select(this).property("id"))
             console.log(d3.select(this).property("value"))
@@ -151,9 +151,9 @@ function updateVis(svg, stationData = allData) {
     let currentData = stationData;
 
     svg.selectAll('.points')
-        .data(currentData, d => d.date)
+        .data(currentData, d => d.date_int)
         .join(
-            function(enter) {
+            function (enter) {
                 return enter
                     .append('circle')
                     .attr('class', 'points')
@@ -162,38 +162,38 @@ function updateVis(svg, stationData = allData) {
                     .style('fill', d => colorScale(d.date))
                     .style('opacity', 0.5)
                     .attr('r', 0)
-                    .on('mouseover', function(event, d) {
+                    .on('mouseover', function (event, d) {
                         d3.selectAll('.points')
-                            .style('opacity', function(p) {
-                                if (p.date === d.date) {
+                            .style('opacity', function (p) {
+                                if (p.date_int === d.date_int) {
                                     return 1;
                                 } else {
                                     return 0.1;
                                 }
                             })
-                            .style('stroke', function(p) {
-                                if (p.date === d.date) {
+                            .style('stroke', function (p) {
+                                if (p.date_int === d.date_int) {
                                     return 'black';
                                 } else {
                                     return 'none';
                                 }
                             })
-                            .style('stroke-width', function(p) {
-                                if (p.date === d.date) {
+                            .style('stroke-width', function (p) {
+                                if (p.date_int === d.date_int) {
                                     return 2;
                                 } else {
                                     return 0;
                                 }
                             });
                     })
-                    .on('mouseout', function() {
+                    .on('mouseout', function () {
                         resetPoints();
                     })
                     .transition()
                     .duration(t)
                     .attr('r', d => sizeScale(d[sizeVar]));
             },
-            function(update) {
+            function (update) {
                 return update
                     .transition()
                     .duration(t)
@@ -203,7 +203,7 @@ function updateVis(svg, stationData = allData) {
                     .attr('fill', d => colorScale(d.date))
 
             },
-            function(exit) {
+            function (exit) {
                 return exit
                     .transition()
                     .duration(t)
@@ -217,7 +217,7 @@ function updateVis(svg, stationData = allData) {
 function makeBrush(svg, stationData) {
     let brush = d3.brush()
         .extent([[0, 0], [width, height]])
-        .on("brush end", function(event) {
+        .on("brush end", function (event) {
             if (!event.selection) {
                 resetPoints();
                 return;
@@ -230,32 +230,32 @@ function makeBrush(svg, stationData) {
 
             let selectedDates = [];
 
-            stationData.forEach(function(d) {
+            stationData.forEach(function (d) {
                 let cx = xScale(d[xVar]);
                 let cy = yScale(d[yVar]);
 
                 if (cx >= x0 && cx <= x1 && cy >= y0 && cy <= y1) {
-                    selectedDates.push(d.date);
+                    selectedDates.push(d.date_int);
                 }
             });
 
             d3.selectAll('.points')
-                .style('opacity', function(d) {
-                    if (selectedDates.includes(d.date)) {
+                .style('opacity', function (d) {
+                    if (selectedDates.includes(d.date_int)) {
                         return 1;
                     } else {
                         return 0.1;
                     }
                 })
-                .style('stroke', function(d) {
-                    if (selectedDates.includes(d.date)) {
+                .style('stroke', function (d) {
+                    if (selectedDates.includes(d.date_int)) {
                         return 'black';
                     } else {
                         return 'none';
                     }
                 })
-                .style('stroke-width', function(d) {
-                    if (selectedDates.includes(d.date)) {
+                .style('stroke-width', function (d) {
+                    if (selectedDates.includes(d.date_int)) {
                         return 2;
                     } else {
                         return 0;

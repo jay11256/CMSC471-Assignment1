@@ -16,7 +16,6 @@ const mapping = {
     "WSF5": "Fastest Wind Speed (MPH)",
     "PRCP": "Precipitation (In)"
 }
-let colorScale = d3.scaleSequential(d3.interpolateTurbo); // d3.schemeSet2 is a set of predefined colors. 
 const options = ['TMIN', 'TMAX', 'AWND', 'WSF5', 'PRCP']
 const dataPath = "data/processed.csv" // CHANGE TO PATH TO DATA
 const parseDate = d3.timeParse("%Y-%m-%d")
@@ -29,6 +28,18 @@ let filteredData = [];
 let xVar = 'TMIN'
 let yVar = 'AWND'
 let sizeVar = 'PRCP'
+
+// Handling Colors
+function getSeason(date) {
+    const month = date.getMonth() + 1; // JS months: 0-11
+    if (month >= 3 && month <= 4) return "Spring";
+    else if (month >= 5 && month <= 7) return "Summer";
+    else if (month >= 8 && month <= 11) return "Fall";
+    else return "Winter"; // Dec, Jan, Feb
+}
+const colorScale = d3.scaleOrdinal()
+    .domain(["Spring", "Summer", "Fall", "Winter"])
+    .range(["#2ca02c", "#ff7f0e", "#d62728", "#1f77b4"]); // Pick any 4 colors
 
 // Init
 function init() {
@@ -55,21 +66,15 @@ function init() {
             date_int: +d.date_int
         }))
         .then(data => {
-            // console.log(data)
-            const minDate = d3.min(data, d => d.date)
-            const maxDate = d3.max(data, d => d.date)
-            colorScale = colorScale.domain([minDate, maxDate])
+            // const minDate = d3.min(data, d => d.date)
+            // const maxDate = d3.max(data, d => d.date)
+            // colorScale = colorScale.domain([minDate, maxDate])
             allData = data
-            // Setup
-            // selector(s)?
             setupSelector()
             update()
-
         })
         .catch(error => console.error('Error loading data: ', error));
-
 }
-
 
 function setupSelector() {
     d3.selectAll(".variable")
@@ -190,7 +195,7 @@ function updateVis(svg, stationData = allData) {
                     .attr('class', 'points')
                     .attr('cx', d => xScale(d[xVar]))
                     .attr('cy', d => yScale(d[yVar]))
-                    .style('fill', d => colorScale(d.date))
+                    .style('fill', d => colorScale(getSeason(d.date)))
                     .style('opacity', 0.5)
                     .attr('r', 0)
                     .on('mouseover', function (event, d) {

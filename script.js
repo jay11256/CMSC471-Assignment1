@@ -3,14 +3,14 @@ const margin = { top: 80, right: 60, bottom: 60, left: 100 };
 const width = 400 - margin.left - margin.right;
 const height = 300 - margin.top - margin.bottom;
 
-const stations = ['','','','']
+const stations = ['', '', '', '']
 const colorScale = d3.scaleOrdinal(stations, d3.schemeSet2); // d3.schemeSet2 is a set of predefined colors. 
 
 const dataPath = "data/processed.csv" // CHANGE TO PATH TO DATA
 
 t = 1000;
 let allData = []; // Initialize in init()
-let filteredData = []; 
+let filteredData = [];
 
 
 // PLACEHOLDER VARIABLES
@@ -62,9 +62,9 @@ function init() {
             // vis (bubbles representing datapoints)
             updateVis()
 
-})
+        })
         .catch(error => console.error('Error loading data: ', error));
-        
+
 }
 
 
@@ -75,9 +75,9 @@ function setupSelector() {
 
 }
 
-function updateAxes(){
-  // Draws the x-axis and y-axis
-  // Adds ticks, labels, and makes sure everything lines up nicely
+function updateAxes() {
+    // Draws the x-axis and y-axis
+    // Adds ticks, labels, and makes sure everything lines up nicely
     svg.selectAll('.axis').remove()
     svg.selectAll('.labels').remove()
     xScale = d3.scaleLinear()
@@ -91,7 +91,7 @@ function updateAxes(){
         .call(xAxis);
 
     yScale = d3.scaleLinear()
-        .domain([d3.max(allData, d => d[yVar]),0])
+        .domain([d3.max(allData, d => d[yVar]), 0])
         .range([0, height]);
     const yAxis = d3.axisLeft(yScale)
 
@@ -122,8 +122,8 @@ function updateAxes(){
 }
 
 
-function updateVis(){
-  // Draws (or updates) the bubbles
+function updateVis() {
+    // Draws (or updates) the bubbles
 
     let currentData = allData//.filter(d => d.year === targetYear)
 
@@ -144,8 +144,8 @@ function updateVis(){
                     .attr('r', 0) // before transition r = 0
                     .on('mouseover', function (event, d) {
                         d3.select(this) // Refers to the hovered circle
-    .style('stroke', 'black')
-    .style('stroke-width', '4px')
+                            .style('stroke', 'black')
+                            .style('stroke-width', '4px')
                         // console.log(d) // See the data point in the console for debugging
                         d3.select('#tooltip')
                             // if you change opacity to hide it, you should also change opacity here
@@ -158,7 +158,7 @@ function updateVis(){
                     })
                     .on("mouseout", function (event, d) {
                         d3.select(this) // Refers to the hovered circle
-    .style('stroke', 'none')
+                            .style('stroke', 'none')
                         d3.select('#tooltip')
                             .style('display', 'none') // Hide tooltip when cursor leaves
                     })
@@ -174,9 +174,9 @@ function updateVis(){
             },
             function (exit) {
                 exit
-                .transition(t)
-                .attr('r', 0)  // Shrink to radius 0
-                .remove()  // Then remove the bubble
+                    .transition(t)
+                    .attr('r', 0)  // Shrink to radius 0
+                    .remove()  // Then remove the bubble
             }
         )
 

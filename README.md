@@ -1,7 +1,9 @@
 # CMSC471-Assignment1
-Hey guys! Charles here
+By: Raghav Chakravarthy, Jason Liu, and Charles Phan
 
-Let's do [Daily Weather in the U.S., 2017](https://fumeng-yang.github.io/CMSC471/handouts/weather.csv)
+Hey guys! This project involves using D3.js and data visualization techniques in order to unearth interesting observations about our data set.
+
+[Daily Weather in the U.S., 2017] (https://fumeng-yang.github.io/CMSC471/handouts/weather.csv)
 
 Dataset Observations:
 - Contains data from 64 states/territories/provinces

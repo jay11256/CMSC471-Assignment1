@@ -58,8 +58,13 @@
             </fieldset>
             <fieldset>
                 <legend>Rationale for Design Decisions</legend>
-                <p>Our web visualization approach was designed to effectively display the daily weather data across multiple stations in Maryland. We chose to use scatter plots to represent the relationship between different weather variables. Each axis can be customized by the user, allowing for a flexible exploration of the data, and easy on-demand plots of various relationships among variables in the dataset. The size of the points in the scatter plot is also adjustable, providing an additional dimension for analysis.
-                    The color coding by season allows for easy identification of patterns in the data. We use the plus icon across all plots to allow for easy understanding of our brushing/linking feature, which is activated by click and drag. The box can then be moved across the graph to make quick inspection easy. </p>
+                <p>
+                    Our web visualization approach was designed to effectively display the daily weather data across multiple stations in Maryland. We chose to use scatter plots to represent the relationship between different weather variables. Each axis can be customized by the user, allowing for a flexible exploration of the data, and easy on-demand plots of various relationships among variables in the dataset. The size of the points in the scatter plot is also adjustable, providing an additional dimension for analysis.
+                    The color coding by season allows for easy identification of patterns in the data. We use the plus icon across all plots to allow for easy understanding of our brushing/linking feature, which is activated by click and drag. The box can then be moved across the graph to make quick inspection easy. <br>
+                    <br>
+                    Some patterns we want users to be able to identify easily are how certain weather trends are associated with certain seasons. Being able to highlight specific seasons and brush certain clusters of data points makes it easy to observe these patterns. For instance, users can set the X and Y axis to be wind measurements, and by selecting different seasons to highlight, they can see that winter and spring tend to have higher wind speeds in all locations.
+                    Being able to brush also allows users to identify outliers in data. When setting the axes to temperature measurements, users can see that the Patuxent graph has several outliers where there appears to be significant temperature deviations during the summer. By brushing over these points, users can see that these extremities aren't reflected in the other locations, suggesting that the Patuxent station may have had faulty measurements or truly extreme weather.
+                </p>
             </fieldset>
             <fieldset>
                 <legend>References to Data Resources</legend>

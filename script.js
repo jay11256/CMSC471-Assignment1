@@ -28,10 +28,12 @@ let filteredData = [];
 let xVar = 'TMIN'
 let yVar = 'AWND'
 let sizeVar = 'PRCP'
+let seasonVar = 'All'
 
 // Handling Colors
-const seasons = ["Spring", "Summer", "Fall", "Winter"];
-const seasonColors = ["#2ca02c", "#ff7f0e", "#d62728", "#1f77b4"];
+const blank = "#DDDDDD";
+const seasons = ["All", "Spring", "Summer", "Fall", "Winter"];
+let seasonColors = [blank, "#2ca02c", "#ff7f0e", "#d62728", "#1f77b4"];
 function getSeason(date) {
     const month = date.getMonth() + 1; // JS months: 0-11
     if (month >= 3 && month <= 4) return "Spring";
@@ -39,7 +41,7 @@ function getSeason(date) {
     else if (month >= 8 && month <= 11) return "Fall";
     else return "Winter"; // Dec, Jan, Feb
 }
-const colorScale = d3.scaleOrdinal()
+let colorScale = d3.scaleOrdinal()
     .domain(seasons)
     .range(seasonColors);
 
@@ -106,6 +108,42 @@ function setupSelector() {
     d3.select("#xVariable").property("value", xVar)
     d3.select("#yVariable").property("value", yVar)
     d3.select("#sizeVariable").property("value", sizeVar)
+
+    d3.selectAll("#seasonVariable")
+        .each(function() {
+            d3.select(this).selectAll("seasonOptions")
+                .data(seasons)
+                .enter()
+                .append("option")
+                .text(d => d)
+                .attr("value", d => d)
+        })
+        .on("change", function (event) {
+            seasonVar = d3.select(this).property("value");
+            seasonColors = [blank, blank, blank, blank, blank];
+            switch (seasonVar) {
+                case "All":
+                    seasonColors = [blank, "#2ca02c", "#ff7f0e", "#d62728", "#1f77b4"];
+                    break;
+                case "Spring":
+                    seasonColors[1] = "#2ca02c";
+                    break;
+                case "Summer":
+                    seasonColors[2] = "#ff7f0e";
+                    break;
+                case "Fall":
+                    seasonColors[3] = "#d62728";
+                    break;
+                case "Winter":
+                    seasonColors[4] = "#1f77b4";
+                    break;
+            }
+
+            colorScale = d3.scaleOrdinal()
+                .domain(seasons)
+                .range(seasonColors);
+            update();
+        })
 }
 
 function updateAxes(svg) {
@@ -196,7 +234,7 @@ function updateVis(svg, stationData = allData) {
                     .attr('class', 'points')
                     .attr('cx', d => xScale(d[xVar]))
                     .attr('cy', d => yScale(d[yVar]))
-                    .style('fill', d => colorScale(getSeason(d.date)))
+                    .attr('fill', d => colorScale(getSeason(d.date)))
                     .style('opacity', 0.5)
                     .attr('r', 0)
                     // .on('mouseover', function (event, d) {
@@ -220,7 +258,6 @@ function updateVis(svg, stationData = allData) {
                     .attr('cy', d => yScale(d[yVar]))
                     .attr('r', d => sizeScale(d[sizeVar]))
                     .attr('fill', d => colorScale(getSeason(d.date)))
-
             },
             function (exit) {
                 return exit
@@ -233,29 +270,41 @@ function updateVis(svg, stationData = allData) {
 }
 
 function addLegend(svg) {
-    svg.selectAll('.legends').remove()
-    let size = 10
-    svg.selectAll("seasonSquare")
-        .data(seasons)
-        .enter()
-        .append("rect")
-        .attr("y", -margin.top/2 + 15)
-        .attr("x", (d, i) => i * (size + 70) + 15)
-        .attr("width", size)
-        .attr("height", size)
-        .style("fill", d => colorScale(d))
-        .attr('class', 'legends')
-    svg.selectAll("seasonName")
-        .data(seasons)
-        .enter()
-        .append("text")
-        .attr("y", -margin.top/2 + size + 15)
-        .attr("x", (d, i) => i * (size + 70) + 30)
-        .style("fill", d => colorScale(d))
-        .text(d => d)
-        .attr("text-anchor", "left")
-        .style("font-size", "13px")
-        .attr('class', 'legends')
+    let size = 10;
+    let squares = svg.selectAll(".legendSquare")
+        .data(seasons.slice(1));
+
+    squares.join(
+        enter => enter.append("rect")
+            .attr("class", "legendSquare legends")
+            .attr("y", -margin.top/2 + 15)
+            .attr("x", (d,i) => i*(size+70)+15)
+            .attr("width", size)
+            .attr("height", size)
+            .attr("fill", d => colorScale(d)),
+
+        update => update
+            .transition()
+            .duration(t)
+            .attr("fill", d => colorScale(d))
+    );
+
+    let labels = svg.selectAll(".legendLabel")
+        .data(seasons.slice(1));
+    labels.join(
+        enter => enter.append("text")
+            .attr("class", "legendLabel legends")
+            .attr("y", -margin.top/2 + size + 15)
+            .attr("x", (d,i) => i*(size+70)+30)
+            .attr("text-anchor", "left")
+            .style("font-size", "13px")
+            .text(d => d)
+            .style("fill", d => colorScale(d)),
+        update => update
+            .transition()
+            .duration(t)
+            .style("fill", d => colorScale(d))
+    );
 }
 
 function makeBrush(svg, stationData) {

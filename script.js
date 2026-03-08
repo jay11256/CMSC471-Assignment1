@@ -172,8 +172,8 @@ function updateAxes(svg) {
         .call(yAxis);
 
     sizeScale = d3.scaleSqrt()
-        .domain([0, d3.max(allData, d => d[sizeVar])]) // Largest bubble = largest data point 
-        .range([3, 7]); // Feel free to tweak these values if you want bigger or smaller bubbles
+        .domain([d3.min(allData, d => d[sizeVar]), d3.max(allData, d => d[sizeVar])]) // Largest bubble = largest data point 
+        .range([4, 8]); // Feel free to tweak these values if you want bigger or smaller bubbles
 
     // X-axis label
     svg.append("text")

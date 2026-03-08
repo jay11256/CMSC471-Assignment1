@@ -335,7 +335,7 @@ function makeBrush(svg, stationData) {
             d3.selectAll('.points')
                 .style('opacity', d => selectedDates.includes(d.date_int) ? 1 : 0.1)
                 .style('stroke', d => selectedDates.includes(d.date_int) ? 'black' : 'none')
-                .style('stroke-width', d => selectedDates.includes(d.date_int) ? 2 : 0);
+                .style('stroke-width', d => selectedDates.includes(d.date_int) ? 1 : 0);
         });
 
     svg.selectAll(".brush").remove();

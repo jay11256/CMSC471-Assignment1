@@ -73,10 +73,6 @@ function init() {
             // colorScale = colorScale.domain([minDate, maxDate])
             allData = data
             setupSelector()
-            addLegend(svgPatuxent);
-            addLegend(svgHagerstown);
-            addLegend(svgBaltimore);
-            addLegend(svgOcean);
             update()
         })
         .catch(error => console.error('Error loading data: ', error));
@@ -237,6 +233,7 @@ function updateVis(svg, stationData = allData) {
 }
 
 function addLegend(svg) {
+    svg.selectAll('.legends').remove()
     let size = 10
     svg.selectAll("seasonSquare")
         .data(seasons)
@@ -247,6 +244,7 @@ function addLegend(svg) {
         .attr("width", size)
         .attr("height", size)
         .style("fill", d => colorScale(d))
+        .attr('class', 'legends')
     svg.selectAll("seasonName")
         .data(seasons)
         .enter()
@@ -257,6 +255,7 @@ function addLegend(svg) {
         .text(d => d)
         .attr("text-anchor", "left")
         .style("font-size", "13px")
+        .attr('class', 'legends')
 }
 
 function makeBrush(svg, stationData) {
@@ -303,6 +302,11 @@ function update() {
     let baltimoreData = allData.filter(d => d.station === 'BALTIMORE WASH INTL AP');
     let oceanData = allData.filter(d => d.station === 'OCEAN CITY MUNI AP');
 
+    addLegend(svgPatuxent);
+    addLegend(svgHagerstown);
+    addLegend(svgBaltimore);
+    addLegend(svgOcean);
+    
     updateAxes(svgPatuxent);
     updateAxes(svgHagerstown);
     updateAxes(svgBaltimore);

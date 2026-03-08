@@ -32,13 +32,13 @@ let seasonVar = 'All'
 
 // Handling Colors
 const blank = "#DDDDDD";
-const seasons = ["All", "Spring", "Summer", "Fall", "Winter"];
+const seasons = ["All", "Spring", "Summer", "Autumn", "Winter"];
 let seasonColors = [blank, "#2ca02c", "#ff7f0e", "#d62728", "#1f77b4"];
 function getSeason(date) {
     const month = date.getMonth() + 1; // JS months: 0-11
     if (month >= 3 && month <= 4) return "Spring";
     else if (month >= 5 && month <= 7) return "Summer";
-    else if (month >= 8 && month <= 11) return "Fall";
+    else if (month >= 8 && month <= 11) return "Autumn";
     else return "Winter"; // Dec, Jan, Feb
 }
 let colorScale = d3.scaleOrdinal()
@@ -131,7 +131,7 @@ function setupSelector() {
                 case "Summer":
                     seasonColors[2] = "#ff7f0e";
                     break;
-                case "Fall":
+                case "Autumn":
                     seasonColors[3] = "#d62728";
                     break;
                 case "Winter":
@@ -278,7 +278,7 @@ function addLegend(svg) {
         enter => enter.append("rect")
             .attr("class", "legendSquare legends")
             .attr("y", -margin.top/2 + 15)
-            .attr("x", (d,i) => i*(size+70)+15)
+            .attr("x", (d,i) => i*(size+70) + 70)
             .attr("width", size)
             .attr("height", size)
             .attr("fill", d => colorScale(d)),
@@ -295,7 +295,7 @@ function addLegend(svg) {
         enter => enter.append("text")
             .attr("class", "legendLabel legends")
             .attr("y", -margin.top/2 + size + 15)
-            .attr("x", (d,i) => i*(size+70)+30)
+            .attr("x", (d,i) => i*(size+70) + 15 + 70)
             .attr("text-anchor", "left")
             .style("font-size", "13px")
             .text(d => d)

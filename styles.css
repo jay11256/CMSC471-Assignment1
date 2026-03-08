@@ -66,3 +66,11 @@ h4 {
     fill-opacity: 0.2;
     stroke: #333;
 }
+
+#written-responses {
+    width: 90%;
+
+    legend {
+        font-weight: bold;
+    }
+}

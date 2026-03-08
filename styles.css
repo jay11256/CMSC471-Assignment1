@@ -28,7 +28,7 @@ h4 {
 
 /* Container styling for layout */
 #main-container {
-    width: 80%;
+    width: 90%;
     margin: 0 auto;
     display: flex;
     flex-direction: column;

@@ -44,7 +44,17 @@
         <div id="written-responses">
             <fieldset>
                 <legend>Introduction to the Dataset</legend>
-                <p>bleh</p>
+                <p>
+                    We decided to use the <a href="https://fumeng-yang.github.io/CMSC471/handouts/weather.csv">Daily Weather in the U.S., 2017</a> dataset.<br> This dataset contains daily weather data from various weather stations in 2017.
+                    Exploratory data analysis was used to gain a general understanding of the entire dataset (code can be found in "prelim.ipynb" on the github).
+                    We determined that the scope of the entire dataset was too large as it contained daily data from hundreds of weather stations from different states, territories, and provinces, so we decided to focus on Maryland weather stations.<br>
+                    The dataset contained the data for 6 MD weather stations. After plotting these locations on a map, we determined that 2 pairs of locations were in very close proximity, so we eliminated the lesser known location of each pair, resulting in the 4 locations used above.<br>
+                    <br>
+                    The original dataset included variables such as snowfall, snow depth, and average temperature. We decided to exclude these from the visualization variables/dropdowns for several reason.
+                    First, the dataset had no data for these variables for a significant amount of days. Snowfall and snow depth were understandable as this region isn't known for snowfall, but it was strange that average temperature wasn't recorded.
+                    We could've imputed data based on the max and min temperatures of each day, but we decided against it as we wanted to visualize the given dataset without modifying data.
+                    Second, the dataset doesn't have data for the full year. As noted at the top of this webpage, the dataset only contains data ranging from January to September, missing multiple winter months which may have seen snowfall. We decided to exclude snow data as a whole as there was only data for half of the winter season.
+                </p>
             </fieldset>
             <fieldset>
                 <legend>Rationale for Design Decisions</legend>

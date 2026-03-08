@@ -21,6 +21,11 @@ h4 {
     margin: 0px;
 }
 
+#preface {
+    display: flex;
+    gap: 5rem;
+}
+
 /* Container styling for layout */
 #main-container {
     width: 80%;

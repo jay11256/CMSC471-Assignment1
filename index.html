@@ -14,11 +14,21 @@
         <a href="https://www.google.com/maps/d/u/0/edit?mid=1D0Wgnjz7Rd_2WkH7w_gU6D3pj61OQgw&usp=sharing" target="_blank">
             <h4>Weather Station Locations</h4>
         </a>
-        <div id="controls">
-            X-Axis: <select id="xVariable" class="variable"></select><br>
-            Y-Axis: <select id="yVariable" class="variable"></select><br>
-            Size: <select id="sizeVariable" class="variable"></select><br>
-            Season: <select id="seasonVariable"></select>
+        <div id="preface">
+            <div id="controls">
+                <strong>Dropdowns</strong><br>
+                X-Axis: <select id="xVariable" class="variable"></select><br>
+                Y-Axis: <select id="yVariable" class="variable"></select><br>
+                Size: <select id="sizeVariable" class="variable"></select><br>
+                Season: <select id="seasonVariable"></select>
+            </div>
+            <div id="insturctions">
+                Use the dropdowns on the left to change axes and size variables<br>
+                Use the season dropdown to highlight different seasons of data<br>
+                Click and drag on any graph to highlight points<br>
+                Datapoints with the same dates as highlighted will be highlighted on the other graphs<br>
+                Disclaimer: Graphs may not wrap properly on smaller resolutions<br>
+            </div>
         </div>
         <div class="grid-layout">
             <div class="container" id="chartP">

@@ -4,6 +4,7 @@ html {
     background-position: center;
     background-repeat: no-repeat;
     background-attachment: fixed;
+    overscroll-behavior: none;
 }
 
 /* Reset default styles */
@@ -12,8 +13,15 @@ body {
     margin: 0;
     line-height: 1.8;
 }
-/* Container styling for layout */
 
+h1 {
+    margin-bottom: 0px;
+}
+h4 {
+    margin: 0px;
+}
+
+/* Container styling for layout */
 #main-container {
     width: 80%;
     margin: 0 auto;
